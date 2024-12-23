@@ -1,25 +1,25 @@
 version: '3'
 services:
   mongodb:
-    image: mongo:latest
-    container_name: mongodb
+    image: mongo:latest        # Pulls the latest MongoDB image from Docker Hub
+    container_name: mongodb    # Sets the container name to 'mongodb'
     ports:
-      - "27017:27017"
+      - "27017:27017"          # Exposes MongoDB port to the host machine
     networks:
-      - app-network
+      - app-network            # Defines the network for communication with JHipster container
 
-  your-jhipster-app:
-    image: jhipster
-    container_name: jhipster
+  jhipster:
+    image: iumar28/jhipster:latest  # Your JHipster app image from Docker Hub
+    container_name: jhipster        # Sets the container name to 'jhipster'
     depends_on:
-      - mongodb
+      - mongodb                     # Ensures MongoDB starts before JHipster
     environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/harsh
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/harsh  # MongoDB connection URI for JHipster app
     ports:
-      - "8080:8080"
+      - "8080:8080"                  # Exposes JHipster app on port 8080
     networks:
-      - app-network
+      - app-network                  # Defines the network for communication with MongoDB container
 
 networks:
   app-network:
-    driver: bridge
+    driver: bridge  # Defines the network type, 'bridge' is typical for Docker Compose
